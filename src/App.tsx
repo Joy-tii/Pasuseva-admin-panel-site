@@ -15,6 +15,9 @@ import ProtectedLayout from "./layout/ProtectedLayout";
 import { useEffect } from "react";
 import PaymentList from "./pages/PaymentList";
 import PaymentDetail from "./pages/PaymentDetail";
+import AnalystDashboard from "./pages/Dashboard/AnalystDashboard"; // Sahi path ka dhyan rakho
+import YojnaList from "./pages/Yojna/YojnaList";
+import AddYojna from "./pages/Yojna/AddYojna";
 
 export default function App() {
   const isAuthenticated = true; //useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -48,6 +51,9 @@ export default function App() {
             <Route path="/inventory/history" element={<SellHistory />} />
             <Route path="/payments/list" element={<PaymentList />} />
             <Route path="/payments/:id" element={<PaymentDetail />} />
+            <Route path="/dashboard/analyst" element={<AnalystDashboard />} />
+            <Route path="/yojna/list" element={<YojnaList />} />
+            <Route path="/yojna/add" element={<AddYojna />} />
           </Route>
         {/* </Route> */}
 

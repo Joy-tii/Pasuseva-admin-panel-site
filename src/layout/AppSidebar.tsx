@@ -20,13 +20,29 @@ const navItems: NavItem[] = [
   {
     icon: (
       <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
+        {/* Dashboard icon */}
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3 13h4v-2H3v2zm0 4h4v-2H3v2zm0-8h4V7H3v2zm6 8h8v-2h-8v2zm0-4h8v-2h-8v2zm0-6v2h8V7h-8z" />
+        </svg>
+      </span>
+    ),
+    name: "Dashboard",
+    subItems: [
+      { name: "Analyst", path: "/dashboard/analyst" },
+    ],
+  },
+];
+
+const yojnaItems: NavItem[] = [
+  {
+    icon: (
+      <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
         <FaHorse />
       </span>
     ),
     name: "Yojnas",
     subItems: [
-      { name: "Govt Schemes", path: "/yojna/govt" },
-      { name: "Subsidies", path: "/yojna/subsidies" },
+      { name: "List", path: "/yojna/list" }, // <-- Only List subitem
     ],
   },
 ];
@@ -65,7 +81,7 @@ const AppSidebar: React.FC = () => {
   const location = useLocation();
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others" | "payments";
+    type: "dashboard" | "yojna" | "others" | "payments";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>({});
@@ -78,10 +94,12 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     let submenuMatched = false;
-    ["main", "others", "payments"].forEach((menuType) => {
+    ["dashboard", "yojna", "others", "payments"].forEach((menuType) => {
       const items =
-        menuType === "main"
+        menuType === "dashboard"
           ? navItems
+          : menuType === "yojna"
+          ? yojnaItems
           : menuType === "others"
           ? othersItems
           : paymentsItems;
@@ -90,7 +108,7 @@ const AppSidebar: React.FC = () => {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
               setOpenSubmenu({
-                type: menuType as "main" | "others" | "payments",
+                type: menuType as "dashboard" | "yojna" | "others" | "payments",
                 index,
               });
               submenuMatched = true;
@@ -117,7 +135,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "payments") => {
+  const handleSubmenuToggle = (index: number, menuType: "dashboard" | "yojna" | "others" | "payments") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -130,7 +148,10 @@ const AppSidebar: React.FC = () => {
     });
   };
 
-  const renderMenuItems = (items: NavItem[], menuType: "main" | "others" | "payments") => (
+  const renderMenuItems = (
+    items: NavItem[],
+    menuType: "dashboard" | "yojna" | "others" | "payments"
+  ) => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
         <li key={nav.name}>
@@ -286,7 +307,7 @@ const AppSidebar: React.FC = () => {
               className="dark:hidden"
               src="/images/logo/pasuseva-logo1-removebg-preview.png"
               alt="Pasu Seva"
-               width={120}
+              width={120}
               height={40}
             />
           )}
@@ -306,6 +327,20 @@ const AppSidebar: React.FC = () => {
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
+            {/* Dashboard Section */}
+            <div>
+              <h2
+                className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                Dashboard
+              </h2>
+              {renderMenuItems(navItems, "dashboard")}
+            </div>
+
             {/* Yojnas Section */}
             <div>
               <h2
@@ -317,7 +352,7 @@ const AppSidebar: React.FC = () => {
               >
                 Yojnas
               </h2>
-              {renderMenuItems(navItems, "main")}
+              {renderMenuItems(yojnaItems, "yojna")}
             </div>
 
             {/* Support Section */}

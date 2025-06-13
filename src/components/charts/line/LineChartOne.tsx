@@ -4,62 +4,83 @@ import { ApexOptions } from "apexcharts";
 export default function LineChartOne() {
   const options: ApexOptions = {
     legend: {
-      show: false, // Hide legend
+      show: true,
       position: "top",
       horizontalAlign: "left",
+      fontSize: "14px",
+      fontWeight: 600,
+      labels: {
+        colors: ["var(--pasuseva-green)", "var(--pasuseva-orange)"],
+        useSeriesColors: false,
+      },
+      markers: {
+        // radius: 4, // ❌ Remove this line
+        // Only allowed: fillColors, strokeColor, strokeWidth, offsetX, offsetY, shape, customHTML, onClick
+      },
     },
-    colors: ["#465FFF", "#9CB9FF"], // Define line colors
+    colors: ["var(--pasuseva-green)", "var(--pasuseva-orange)"], // Theme colors
     chart: {
       fontFamily: "Outfit, sans-serif",
       height: 310,
-      type: "line", // Set the chart type to 'line'
+      type: "line",
       toolbar: {
-        show: false, // Hide chart toolbar
+        show: false,
       },
+      background: "transparent",
     },
     stroke: {
-      curve: "straight", // Define the line style (straight, smooth, or step)
-      width: [2, 2], // Line width for each dataset
+      curve: "smooth",
+      width: [3, 3],
     },
-
     fill: {
       type: "gradient",
       gradient: {
-        opacityFrom: 0.55,
+        shade: "light",
+        type: "vertical",
+        shadeIntensity: 0.2,
+        gradientToColors: ["var(--pasuseva-green)", "var(--pasuseva-orange)"],
+        opacityFrom: 0.25,
         opacityTo: 0,
+        stops: [0, 100],
       },
     },
     markers: {
-      size: 0, // Size of the marker points
-      strokeColors: "#fff", // Marker border color
+      size: 4,
+      colors: ["#fff"],
+      strokeColors: ["var(--pasuseva-green)", "var(--pasuseva-orange)"],
       strokeWidth: 2,
       hover: {
-        size: 6, // Marker size on hover
+        size: 7,
       },
     },
     grid: {
+      borderColor: "rgba(255, 193, 7, 0.15)", // light yellow grid
       xaxis: {
         lines: {
-          show: false, // Hide grid lines on x-axis
+          show: false,
         },
       },
       yaxis: {
         lines: {
-          show: true, // Show grid lines on y-axis
+          show: true,
         },
       },
     },
     dataLabels: {
-      enabled: false, // Disable data labels
+      enabled: false,
     },
     tooltip: {
-      enabled: true, // Enable tooltip
+      enabled: true,
+      style: {
+        fontSize: "14px",
+        fontFamily: "Outfit, sans-serif",
+      },
       x: {
-        format: "dd MMM yyyy", // Format for x-axis tooltip
+        show: true,
       },
     },
     xaxis: {
-      type: "category", // Category-based x-axis
+      type: "category",
       categories: [
         "Jan",
         "Feb",
@@ -75,24 +96,32 @@ export default function LineChartOne() {
         "Dec",
       ],
       axisBorder: {
-        show: false, // Hide x-axis border
+        show: false,
       },
       axisTicks: {
-        show: false, // Hide x-axis ticks
+        show: false,
+      },
+      labels: {
+        style: {
+          fontSize: "13px",
+          colors: "var(--pasuseva-green)",
+          fontWeight: 500,
+        },
       },
       tooltip: {
-        enabled: false, // Disable tooltip for x-axis points
+        enabled: false,
       },
     },
     yaxis: {
       labels: {
         style: {
-          fontSize: "12px", // Adjust font size for y-axis labels
-          colors: ["#6B7280"], // Color of the labels
+          fontSize: "13px",
+          colors: "var(--pasuseva-orange)",
+          fontWeight: 500,
         },
       },
       title: {
-        text: "", // Remove y-axis title
+        text: "",
         style: {
           fontSize: "0px",
         },
@@ -112,7 +141,10 @@ export default function LineChartOne() {
   ];
   return (
     <div className="max-w-full overflow-x-auto custom-scrollbar">
-      <div id="chartEight" className="min-w-[1000px]">
+      <div
+        id="chartEight"
+        className="min-w-[1000px] bg-white dark:bg-[#232d1b] rounded-xl shadow border border-[var(--pasuseva-orange)] p-4"
+      >
         <Chart options={options} series={series} type="area" height={310} />
       </div>
     </div>

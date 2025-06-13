@@ -7,14 +7,14 @@ const ChartTab: React.FC = () => {
 
   const getButtonClass = (option: "optionOne" | "optionTwo" | "optionThree") =>
     selected === option
-      ? "shadow-theme-xs text-gray-900 dark:text-white bg-white dark:bg-gray-800"
-      : "text-gray-500 dark:text-gray-400";
+      ? "bg-[var(--pasuseva-orange)] text-white shadow font-semibold"
+      : "text-[var(--pasuseva-green)] bg-transparent hover:bg-[var(--pasuseva-orange)]/10 hover:text-[var(--pasuseva-orange)]";
 
   return (
-    <div className="flex items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900">
+    <div className="flex items-center gap-2 rounded-lg bg-[var(--pasuseva-green)]/10 p-1 dark:bg-[var(--pasuseva-green)]/20">
       <button
         onClick={() => setSelected("optionOne")}
-        className={`px-3 py-2 font-medium w-full rounded-md text-theme-sm hover:text-gray-900   dark:hover:text-white ${getButtonClass(
+        className={`px-4 py-2 rounded-md transition-colors duration-150 ${getButtonClass(
           "optionOne"
         )}`}
       >
@@ -23,7 +23,7 @@ const ChartTab: React.FC = () => {
 
       <button
         onClick={() => setSelected("optionTwo")}
-        className={`px-3 py-2 font-medium w-full rounded-md text-theme-sm hover:text-gray-900   dark:hover:text-white ${getButtonClass(
+        className={`px-4 py-2 rounded-md transition-colors duration-150 ${getButtonClass(
           "optionTwo"
         )}`}
       >
@@ -32,7 +32,7 @@ const ChartTab: React.FC = () => {
 
       <button
         onClick={() => setSelected("optionThree")}
-        className={`px-3 py-2 font-medium w-full rounded-md text-theme-sm hover:text-gray-900   dark:hover:text-white ${getButtonClass(
+        className={`px-4 py-2 rounded-md transition-colors duration-150 ${getButtonClass(
           "optionThree"
         )}`}
       >
