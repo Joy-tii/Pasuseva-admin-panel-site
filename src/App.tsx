@@ -15,9 +15,13 @@ import ProtectedLayout from "./layout/ProtectedLayout";
 import { useEffect } from "react";
 import PaymentList from "./pages/PaymentList";
 import PaymentDetail from "./pages/PaymentDetail";
-import AnalystDashboard from "./pages/Dashboard/AnalystDashboard"; // Sahi path ka dhyan rakho
+// import AnalystDashboard from "./pages/Dashboard/AnalystDashboard"; // Sahi path ka dhyan rakho
 import YojnaList from "./pages/Yojna/YojnaList";
 import AddYojna from "./pages/Yojna/AddYojna";
+import CustomerList from "./pages/Customer/CustomerList";
+import AddCustomer from "./pages/Customer/AddCustomer";
+import MemberList from "./pages/Member/MemberList";
+import AddMember from "./pages/Member/AddMember";
 
 export default function App() {
   const isAuthenticated = true; //useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -51,9 +55,13 @@ export default function App() {
             <Route path="/inventory/history" element={<SellHistory />} />
             <Route path="/payments/list" element={<PaymentList />} />
             <Route path="/payments/:id" element={<PaymentDetail />} />
-            <Route path="/dashboard/analyst" element={<AnalystDashboard />} />
+            {/* <Route path="/dashboard/analyst" element={<AnalystDashboard />} /> */}
             <Route path="/yojna/list" element={<YojnaList />} />
             <Route path="/yojna/add" element={<AddYojna />} />
+            <Route path="/customer/list" element={<CustomerList />} />
+            <Route path="/customer/add" element={<AddCustomer />} />
+            <Route path="/member/list" element={<MemberList />} />
+            <Route path="/member/add" element={<AddMember />} />
           </Route>
         {/* </Route> */}
 

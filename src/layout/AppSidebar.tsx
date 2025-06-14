@@ -4,6 +4,7 @@ import {
   FaHorse,
   FaStethoscope,
   FaMoneyCheckAlt,
+  FaUserFriends,
 } from "react-icons/fa";
 import SidebarWidget from "./SidebarWidget";
 import { ChevronDownIcon } from "../icons";
@@ -28,7 +29,7 @@ const navItems: NavItem[] = [
     ),
     name: "Dashboard",
     subItems: [
-      { name: "Analyst", path: "/dashboard/analyst" },
+      { name: "Analyst", path: "/" },
     ],
   },
 ];
@@ -61,17 +62,30 @@ const paymentsItems: NavItem[] = [
   },
 ];
 
-const othersItems: NavItem[] = [
+const customerItems: NavItem[] = [
   {
     icon: (
       <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
-        <FaStethoscope />
+        <FaUserFriends />
       </span>
     ),
-    name: "Support",
+    name: "Yojna Registration (customer) ",
     subItems: [
-      { name: "Vet Helpline", path: "/support/helpline" },
-      { name: "Emergency", path: "/support/emergency" },
+      { name: "Customer List", path: "/customer/list" },
+    ],
+  },
+];
+
+const memberItems = [
+  {
+    icon: (
+      <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
+        <FaUserFriends />
+      </span>
+    ),
+    name: "Member",
+    subItems: [
+      { name: "Member List", path: "/member/list" },
     ],
   },
 ];
@@ -81,7 +95,7 @@ const AppSidebar: React.FC = () => {
   const location = useLocation();
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "dashboard" | "yojna" | "others" | "payments";
+    type: "dashboard" | "yojna" | "payments" | "customer" | "member";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>({});
@@ -94,21 +108,23 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     let submenuMatched = false;
-    ["dashboard", "yojna", "others", "payments"].forEach((menuType) => {
+    ["dashboard", "yojna", "payments", "customer", "member"].forEach((menuType) => {
       const items =
         menuType === "dashboard"
           ? navItems
           : menuType === "yojna"
           ? yojnaItems
-          : menuType === "others"
-          ? othersItems
-          : paymentsItems;
+          : menuType === "payments"
+          ? paymentsItems
+          : menuType === "customer"
+          ? customerItems
+          : memberItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
               setOpenSubmenu({
-                type: menuType as "dashboard" | "yojna" | "others" | "payments",
+                type: menuType as "dashboard" | "yojna" | "payments" | "customer" | "member",
                 index,
               });
               submenuMatched = true;
@@ -135,7 +151,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "dashboard" | "yojna" | "others" | "payments") => {
+  const handleSubmenuToggle = (index: number, menuType: "dashboard" | "yojna" | "payments" | "customer" | "member") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -150,7 +166,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     items: NavItem[],
-    menuType: "dashboard" | "yojna" | "others" | "payments"
+    menuType: "dashboard" | "yojna" | "payments" | "customer" | "member"
   ) => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
@@ -364,9 +380,26 @@ const AppSidebar: React.FC = () => {
                     : "justify-start"
                 }`}
               >
-                Support
+                Customer
               </h2>
-              {renderMenuItems(othersItems, "others")}
+              {renderMenuItems(customerItems, "customer")}
+            </div>
+
+
+            
+
+            {/* MEMBER Section */}
+              <div>
+              <h2
+                className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                MEMBER
+              </h2>
+              {renderMenuItems(memberItems, "member")}
             </div>
 
             {/* Payments Section */}
