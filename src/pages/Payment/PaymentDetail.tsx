@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle, FaHourglassHalf } from "react-icons/fa";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPaymentDetail } from "../../store/paymentDetailSlice";
+import { RootState } from "../../store";
 
 const statusInfo = {
   paid: {
@@ -27,26 +29,12 @@ const valueClass = "font-medium text-gray-900 dark:text-gray-100";
 const PaymentDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [payment, setPayment] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const { data: payment, loading, error } = useSelector((state: RootState) => state.paymentDetail);
 
   useEffect(() => {
-    if (!id) return;
-    const fetchPayment = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `https://test-api.pasuseva.thundergits.com/api/payment/${id}`
-        );
-        setPayment(response.data.data);
-      } catch (err) {
-        setError("Failed to load payment");
-      }
-      setLoading(false);
-    };
-    fetchPayment();
-  }, [id]);
+    if (id) dispatch(fetchPaymentDetail(id) as any);
+  }, [dispatch, id]);
 
   if (loading) {
     return (
