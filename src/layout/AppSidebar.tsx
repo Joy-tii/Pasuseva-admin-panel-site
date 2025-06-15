@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaHorse,
-  FaStethoscope,
+ 
   FaMoneyCheckAlt,
   FaUserFriends,
 } from "react-icons/fa";

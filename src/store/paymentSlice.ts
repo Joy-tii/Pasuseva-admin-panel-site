@@ -35,11 +35,17 @@ export interface PaymentItem {
   razorpay_signature?: string;
 }
 
-export interface PaymentState {
+interface PaymentState {
   data: PaymentItem[];
   loading: boolean;
   error: string | null;
 }
+
+const initialState: PaymentState = {
+  data: [],
+  loading: false,
+  error: null,
+};
 
 export const fetchPayments = createAsyncThunk(
   "payments/fetchPayments",
@@ -48,12 +54,6 @@ export const fetchPayments = createAsyncThunk(
     return res.data.data as PaymentItem[];
   }
 );
-
-const initialState: PaymentState = {
-  data: [],
-  loading: false,
-  error: null,
-};
 
 const paymentSlice = createSlice({
   name: "payments",

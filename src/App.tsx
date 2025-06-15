@@ -6,16 +6,16 @@ import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Home from "./pages/Dashboard/Home";
+// import Home from "./pages/Dashboard/Home";
 import CreateMedicineForm from "./pages/medicine/CreateMedicineForm";
 import MedicineList from "./pages/medicine/MedicineList";
 import SellForm from "./pages/inventory/SellForm";
 import SellHistory from "./pages/inventory/SellHistory";
-import ProtectedLayout from "./layout/ProtectedLayout";
+// import ProtectedLayout from "./layout/ProtectedLayout";
 import { useEffect } from "react";
-import PaymentList from "./pages/PaymentList";
-import PaymentDetail from "./pages/PaymentDetail";
-// import AnalystDashboard from "./pages/Dashboard/AnalystDashboard"; // Sahi path ka dhyan rakho
+import PaymentList from "./pages/Payment/PaymentList";
+import PaymentDetail from "./pages/Payment/PaymentDetail";
+import AnalystDashboard from "./pages/Dashboard/AnalystDashboard";
 import YojnaList from "./pages/Yojna/YojnaList";
 import AddYojna from "./pages/Yojna/AddYojna";
 import CustomerList from "./pages/Customer/CustomerList";
@@ -48,20 +48,26 @@ export default function App() {
         {/* Protected Routes */}
         {/* <Route element={<ProtectedLayout />}> */}
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+            <Route index element={<AnalystDashboard />} />
+            <Route path="/" element={<AnalystDashboard />} />
             <Route path="/medicine/add" element={<CreateMedicineForm />} />
             <Route path="/medicine/list" element={<MedicineList />} />
             <Route path="/inventory" element={<SellForm />} />
             <Route path="/inventory/history" element={<SellHistory />} />
             <Route path="/payments/list" element={<PaymentList />} />
             <Route path="/payments/:id" element={<PaymentDetail />} />
-            {/* <Route path="/dashboard/analyst" element={<AnalystDashboard />} /> */}
+            <Route path="/dashboard/analyst" element={<AnalystDashboard />} />
             <Route path="/yojna/list" element={<YojnaList />} />
             <Route path="/yojna/add" element={<AddYojna />} />
-            <Route path="/customer/list" element={<CustomerList />} />
-            <Route path="/customer/add" element={<AddCustomer />} />
+            <Route path="/customers/List" element={<CustomerList />} />
+            <Route path="/customers/add" element={<AddCustomer />} />
+            <Route path="/members/List" element={<MemberList />} />
+            <Route path="/members/add" element={<AddMember />} />
             <Route path="/member/list" element={<MemberList />} />
+            <Route path="/payment/list" element={<PaymentList />} />
+            <Route path="/customer/list" element={<CustomerList />} />
             <Route path="/member/add" element={<AddMember />} />
+            <Route path="/customer/add" element={<AddCustomer />} />
           </Route>
         {/* </Route> */}
 
