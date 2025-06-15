@@ -22,9 +22,10 @@ import CustomerList from "./pages/Customer/CustomerList";
 import AddCustomer from "./pages/Customer/AddCustomer";
 import MemberList from "./pages/Member/MemberList";
 import AddMember from "./pages/Member/AddMember";
+import ProtectedLayout from "./layout/ProtectedLayout";
 
 export default function App() {
-  const isAuthenticated = true; //useSelector((state: RootState) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function App() {
         />
 
         {/* Protected Routes */}
-        {/* <Route element={<ProtectedLayout />}> */}
+        <Route element={<ProtectedLayout />}>
           <Route element={<AppLayout />}>
             <Route index element={<AnalystDashboard />} />
             <Route path="/" element={<AnalystDashboard />} />
@@ -69,7 +70,7 @@ export default function App() {
             <Route path="/member/add" element={<AddMember />} />
             <Route path="/customer/add" element={<AddCustomer />} />
           </Route>
-        {/* </Route> */}
+        </Route>
 
         {/* Fallback Route */}
         <Route path="*" element={<NotFound />} />

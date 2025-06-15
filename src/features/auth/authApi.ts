@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import axiosInstance from '../../utils/axiosInstance'
 
 interface LoginCredentials {
-  username: string
+  email: string
   password: string
 }
 
@@ -12,7 +12,7 @@ export const loginUser = createAsyncThunk(
   'users/loginUser',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:4000/users/login', credentials)
+      const response = await axios.post('http://localhost:4013/api/auth/login', credentials)
       console.log(response.data)
       return response.data
     } catch (error: any) {
