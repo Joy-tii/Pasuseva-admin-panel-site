@@ -10,6 +10,8 @@ import {
 import SidebarWidget from "./SidebarWidget";
 import { ChevronDownIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../features/store";
 
 type NavItem = {
   name: string;
@@ -100,6 +102,7 @@ const getInTouchItems: NavItem[] = [
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
+  const { user } = useSelector((state: RootState) => state.auth)
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "dashboard" | "yojna" | "payments" | "customer" | "member";
@@ -176,7 +179,16 @@ const AppSidebar: React.FC = () => {
     menuType: "dashboard" | "yojna" | "payments" | "customer" | "member"
   ) => (
     <ul className="flex flex-col gap-4">
-      {items.map((nav, index) => (
+      {items.filter(f => {
+        if (user?.role === "admin") {
+          return true;
+        } else {
+          if (f.name === 'Users') {
+            return true
+          }
+          return false
+        }
+      }).map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
             <button
