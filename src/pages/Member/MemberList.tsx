@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMembers } from "../../store/memberSlice";
-import { RootState } from "../../store";
+
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
+import { RootState } from "../../features/store";
 
 const MemberList = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const { list: members = [], loading, error } =
-		useSelector((state: RootState) => state.member) || {
+		useSelector((state: RootState) => state.members) || {
 			list: [],
 			loading: false,
 			error: null,

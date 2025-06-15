@@ -3,12 +3,14 @@ import authReducer from '../features/auth/user.slice'
 import paymentReducer from '../features/payment/paymentSlice'
 import paymentDetailReducer from '../features/payment/paymentDetailSlice'
 import authMiddleware from './middlewares/authMiddleware'
+import memberReducer from '../store/memberSlice'
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     payments: paymentReducer,
     paymentDetail: paymentDetailReducer,
+    members: memberReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware),
