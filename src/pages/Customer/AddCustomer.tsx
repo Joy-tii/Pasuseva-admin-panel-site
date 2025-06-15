@@ -1,167 +1,152 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchYojnaRegistrations } from "../../store/yojnaRegistrationSlice";
-import { RootState } from "../../store";
+import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { addYojnaRegistration, fetchYojnaRegistrations } from "../../store/yojnaRegistrationSlice";
+import { useNavigate } from "react-router-dom";
 
 const inputBase =
   "w-full rounded px-4 py-2 focus:outline-none focus:ring-2 transition-colors duration-150 bg-[var(--bg-white)] text-[var(--text-primary)] dark:bg-[#232d1b] dark:text-white";
 const inputBorder =
   "border border-[var(--pasuseva-yellow1)] focus:border-[var(--pasuseva-yellow1)] focus:ring-0 focus:outline-none";
 
-const FileInput = ({ label, inputClassName }: { label: string, inputClassName?: string }) => {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [fileName, setFileName] = useState("No file chosen");
-
-  return (
-    <div>
-      <label className="block mb-1 font-medium dark:text-white">{label}</label>
-      <div
-        className={`${inputBase} ${inputBorder} flex items-center gap-3 !px-2 !py-1`}
-      >
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          className="px-4 py-2 bg-[var(--pasuseva-orange)] text-white rounded shadow hover:bg-orange-600 transition-colors"
-        >
-          Choose File
-        </button>
-        <span className="text-sm text-gray-500 dark:text-gray-300 truncate max-w-[180px]">
-          {fileName}
-        </span>
-        <input
-          ref={fileRef}
-          type="file"
-          className={`hidden ${inputClassName}`}
-          onChange={(e) => {
-            setFileName(e.target.files?.[0]?.name || "No file chosen");
-          }}
-        />
-      </div>
-    </div>
-  );
-};
-
 const AddCustomer = () => {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state: RootState) => state.yojnaRegistration);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(fetchYojnaRegistrations() as any);
-  }, [dispatch]);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    fatherName: "",
+    dob: "",
+    phone: "",
+    email: "",
+    address: "",
+    state: "",
+    district: "",
+    block: "",
+    aadhaar: "",
+    yojna: "",
+  });
 
-  if (loading) {
-    return (
-      <div className="p-6 min-h-screen bg-white dark:bg-[#181c13] flex items-center justify-center">
-        <span className="text-[var(--pasuseva-green)] text-lg">Loading...</span>
-      </div>
-    );
-  }
+  const photoRef = useRef<HTMLInputElement>(null);
+  const aadhaarFrontRef = useRef<HTMLInputElement>(null);
+  const aadhaarBackRef = useRef<HTMLInputElement>(null);
+  const landDocsRef = useRef<HTMLInputElement>(null);
 
-  if (error) {
-    return (
-      <div className="p-6 min-h-screen bg-white dark:bg-[#181c13] flex items-center justify-center">
-        <span className="text-red-500 text-lg">{error}</span>
-      </div>
-    );
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const form = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      form.append(key, value);
+    });
+
+    if (photoRef.current?.files?.[0]) {
+      form.append("photo", photoRef.current.files[0]);
+    }
+    if (aadhaarFrontRef.current?.files?.[0]) {
+      form.append("aadhaarFront", aadhaarFrontRef.current.files[0]);
+    }
+    if (aadhaarBackRef.current?.files?.[0]) {
+      form.append("aadhaarBack", aadhaarBackRef.current.files[0]);
+    }
+    if (landDocsRef.current?.files?.[0]) {
+      form.append("landDocs", landDocsRef.current.files[0]);
+    }
+
+    try {
+      await dispatch(addYojnaRegistration(form) as any);
+      await dispatch(fetchYojnaRegistrations() as any); // 🔁 Refresh list
+      alert("Registration submitted successfully!");
+      navigate("/yojna-list"); // ✅ Navigate to list
+    } catch (error) {
+      alert("Submission failed.");
+    }
+  };
 
   return (
     <div className="p-6 min-h-screen bg-[var(--bg-white)] dark:bg-[#1f1f1f] text-[var(--text-primary)] dark:text-white flex flex-col items-center">
-      <form className="w-full max-w-5xl bg-[var(--bg-white)] dark:bg-[#232d1b] rounded-xl shadow p-6 space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-5xl bg-[var(--bg-white)] dark:bg-[#232d1b] rounded-xl shadow p-6 space-y-6"
+      >
         {/* Row 1 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Full Name
-            </label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Father's Name
-            </label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Date of Birth (DD/MM/YYYY)
-            </label>
-            <input type="date" className={`${inputBase} ${inputBorder}`} />
-          </div>
+          <input type="text" placeholder="Full Name" value={formData.fullName}
+            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="text" placeholder="Father's Name" value={formData.fatherName}
+            onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="date" value={formData.dob}
+            onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
         </div>
+
         {/* Row 2 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Mobile Number
-            </label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">Email ID</label>
-            <input type="email" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <FileInput label="Passport Size Photo" />
-          </div>
+          <input type="text" placeholder="Mobile Number" value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="email" placeholder="Email ID" value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="file" ref={photoRef} className="text-white" />
         </div>
+
         {/* Address */}
-        <div>
-          <label className="block mb-1 font-medium dark:text-white">Full Address</label>
-          <textarea rows={3} className={`${inputBase} ${inputBorder}`} />
-        </div>
+        <textarea rows={3} placeholder="Full Address" value={formData.address}
+          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+          className={`${inputBase} ${inputBorder}`} />
+
         {/* Row 3 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">State</label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">District</label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">Block</label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
+          <input type="text" placeholder="State" value={formData.state}
+            onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="text" placeholder="District" value={formData.district}
+            onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="text" placeholder="Block" value={formData.block}
+            onChange={(e) => setFormData({ ...formData, block: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
         </div>
-       
-        {/* Row 5 */}
+
+        {/* Row 4 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">Aadhaar Number</label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <FileInput label="Aadhaar Card Front Photo" />
-          </div>
-          <div>
-            <FileInput label="Aadhaar Card Back Photo" />
-          </div>
+          <input type="text" placeholder="Aadhaar Number" value={formData.aadhaar}
+            onChange={(e) => setFormData({ ...formData, aadhaar: e.target.value })}
+            className={`${inputBase} ${inputBorder}`} />
+
+          <input type="file" ref={aadhaarFrontRef} className="text-white" />
+          <input type="file" ref={aadhaarBackRef} className="text-white" />
         </div>
-        {/* Land Document (Jamabandi/Receipt) - Only once! */}
+
+        {/* Row 5 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col justify-end">
-            <FileInput label="Land Document (Jamabandi/Receipt)" inputClassName="h-[44px]" />
-          </div>
-          <div className="flex flex-col justify-end">
-            <label className="block mb-1 font-medium dark:text-white">Choose Yojna</label>
-            <select className={`${inputBase} ${inputBorder} h-[44px]`}>
-              <option value="">Select</option>
-              <option value="Pashu Dhan Yojna">Pashu Dhan Yojna</option>
-              <option value="Gaushala Sahayata Yojna">Gaushala Sahayata Yojna</option>
-              <option value="Bakri Palan Yojna">Bakri Palan Yojna</option>
-              <option value="Dairy Yojna">Dairy Yojna</option>
-              <option value="Other Yojna">Other Yojna</option>
-            </select>
-          </div>
+          <input type="file" ref={landDocsRef} className="text-white" />
+
+          <select value={formData.yojna}
+            onChange={(e) => setFormData({ ...formData, yojna: e.target.value })}
+            className={`${inputBase} ${inputBorder} h-[44px]`}
+          >
+            <option value="">Select Yojna</option>
+            <option value="Pashu Dhan Yojna">Pashu Dhan Yojna</option>
+            <option value="Gaushala Sahayata Yojna">Gaushala Sahayata Yojna</option>
+            <option value="Bakri Palan Yojna">Bakri Palan Yojna</option>
+            <option value="Dairy Yojna">Dairy Yojna</option>
+            <option value="Other Yojna">Other Yojna</option>
+          </select>
         </div>
+
         {/* Submit */}
         <div className="flex justify-end">
-          <button
-            type="submit"
-            className="bg-[var(--pasuseva-green)] hover:bg-green-700 text-white font-semibold px-12 py-3 rounded-lg shadow transition-colors"
-          >
+          <button type="submit" className="bg-[var(--pasuseva-green)] hover:bg-green-700 text-white font-semibold px-12 py-3 rounded-lg shadow transition-colors">
             Submit Application (Form Fee: ₹500)
           </button>
         </div>

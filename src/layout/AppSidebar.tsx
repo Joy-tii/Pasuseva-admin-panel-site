@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   // FaHorse,
- 
+
   FaMoneyCheckAlt,
   FaUser,
   FaUserFriends
@@ -79,6 +79,24 @@ const memberItems = [
   },
 ];
 
+const getInTouchItems: NavItem[] = [
+  {
+    icon: (
+      <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016.764 4H3.236a2 2 0 00-1.233.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+      </span>
+    ),
+    name: "Get In Touch",
+    subItems: [
+      { name: "List", path: "/contact/queries" }
+    ],
+  },
+];
+
+
+
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
@@ -102,12 +120,12 @@ const AppSidebar: React.FC = () => {
         menuType === "dashboard"
           ? navItems
           : menuType === "yojna"
-          ? []
-          : menuType === "payments"
-          ? paymentsItems
-          : menuType === "customer"
-          ? customerItems
-          : memberItems;
+            ? []
+            : menuType === "payments"
+              ? paymentsItems
+              : menuType === "customer"
+                ? customerItems
+                : memberItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
@@ -164,8 +182,8 @@ const AppSidebar: React.FC = () => {
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
               className={`menu-item group ${openSubmenu?.type === menuType && openSubmenu?.index === index
-                  ? "menu-item-active"
-                  : "menu-item-inactive"
+                ? "menu-item-active"
+                : "menu-item-inactive"
                 } cursor-pointer ${!isExpanded && !isHovered
                   ? "lg:justify-center"
                   : "lg:justify-start"
@@ -173,8 +191,8 @@ const AppSidebar: React.FC = () => {
             >
               <span
                 className={`menu-item-icon-size  ${openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "menu-item-icon-active"
-                    : "menu-item-icon-inactive"
+                  ? "menu-item-icon-active"
+                  : "menu-item-icon-inactive"
                   }`}
                 style={{
                   color:
@@ -191,9 +209,9 @@ const AppSidebar: React.FC = () => {
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${openSubmenu?.type === menuType &&
-                      openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
-                      : ""
+                    openSubmenu?.index === index
+                    ? "rotate-180 text-brand-500"
+                    : ""
                     }`}
                 />
               )}
@@ -207,8 +225,8 @@ const AppSidebar: React.FC = () => {
               >
                 <span
                   className={`menu-item-icon-size ${isActive(nav.path)
-                      ? "menu-item-icon-active"
-                      : "menu-item-icon-inactive"
+                    ? "menu-item-icon-active"
+                    : "menu-item-icon-inactive"
                     }`}
                 >
                   {nav.icon}
@@ -238,8 +256,8 @@ const AppSidebar: React.FC = () => {
                     <Link
                       to={subItem.path}
                       className={`menu-dropdown-item ${isActive(subItem.path)
-                          ? "menu-dropdown-item-active"
-                          : "menu-dropdown-item-inactive"
+                        ? "menu-dropdown-item-active"
+                        : "menu-dropdown-item-inactive"
                         }`}
                     >
                       {subItem.name}
@@ -247,8 +265,8 @@ const AppSidebar: React.FC = () => {
                         {subItem.new && (
                           <span
                             className={`ml-auto ${isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
+                              ? "menu-dropdown-badge-active"
+                              : "menu-dropdown-badge-inactive"
                               } menu-dropdown-badge`}
                           >
                             new
@@ -257,8 +275,8 @@ const AppSidebar: React.FC = () => {
                         {subItem.pro && (
                           <span
                             className={`ml-auto ${isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
+                              ? "menu-dropdown-badge-active"
+                              : "menu-dropdown-badge-inactive"
                               } menu-dropdown-badge`}
                           >
                             pro
@@ -325,8 +343,8 @@ const AppSidebar: React.FC = () => {
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
+                  ? "lg:justify-center"
+                  : "justify-start"
                   }`}
               >
                 Dashboard
@@ -351,8 +369,8 @@ const AppSidebar: React.FC = () => {
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
+                  ? "lg:justify-center"
+                  : "justify-start"
                   }`}
               >
                 Customer
@@ -367,8 +385,8 @@ const AppSidebar: React.FC = () => {
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
+                  ? "lg:justify-center"
+                  : "justify-start"
                   }`}
               >
                 MEMBER
@@ -380,14 +398,27 @@ const AppSidebar: React.FC = () => {
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
+                  ? "lg:justify-center"
+                  : "justify-start"
                   }`}
               >
                 Payments
               </h2>
               {renderMenuItems(paymentsItems, "payments")}
             </div>
+
+            {/* Get In Touch Section */}
+            <div>
+              <h2
+                className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+                  }`}
+              >
+                Get In Touch
+              </h2>
+              {renderMenuItems(getInTouchItems, "yojna")}
+            </div>
+
+
           </div>
         </nav>
 
