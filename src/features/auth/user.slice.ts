@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {  loginUser } from './authApi';
+import { loginUser } from './authApi';
 import { SerializedError } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
 interface UserData {
   username: string;
   email: string;
+  role: string;
 }
 
 interface User {
@@ -15,14 +16,14 @@ interface User {
 
 interface AuthState {
   user: UserData | null;
-  isAuthenticated:boolean;
+  isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated:false,
+  isAuthenticated: false,
   loading: false,
   error: null,
 };
@@ -33,14 +34,14 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload.data;
-      state.isAuthenticated=true
+      state.isAuthenticated = true
       if (action.payload.token) {
         Cookies.set('token', action.payload.token, { expires: 7 }); // Store token for 7 days
       }
     },
     logout: (state) => {
       state.user = null;
-      state.isAuthenticated=false
+      state.isAuthenticated = false
       Cookies.remove('token'); // Remove token on logout
     },
   },
@@ -68,7 +69,7 @@ const authSlice = createSlice({
         state.user = action.payload.data;
         if (action.payload.token) {
           Cookies.set('token', action.payload.token, { expires: 7 }); // Store token
-          state.isAuthenticated=true
+          state.isAuthenticated = true
         }
       })
       .addCase(loginUser.rejected, (state, action: PayloadAction<unknown, string, any, SerializedError>) => {
