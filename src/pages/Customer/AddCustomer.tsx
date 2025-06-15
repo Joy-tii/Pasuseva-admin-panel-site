@@ -1,11 +1,14 @@
-import React, { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchYojnaRegistrations } from "../../store/yojnaRegistrationSlice";
+import { RootState } from "../../store";
 
 const inputBase =
   "w-full rounded px-4 py-2 focus:outline-none focus:ring-2 transition-colors duration-150 bg-[var(--bg-white)] text-[var(--text-primary)] dark:bg-[#232d1b] dark:text-white";
 const inputBorder =
-  "border-2 border-[var(--pasuseva-yellow1)] focus:ring-[var(--pasuseva-yellow1)]";
+  "border border-[var(--pasuseva-yellow1)] focus:border-[var(--pasuseva-yellow1)] focus:ring-0 focus:outline-none";
 
-const FileInput = ({ label }: { label: string }) => {
+const FileInput = ({ label, inputClassName }: { label: string, inputClassName?: string }) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState("No file chosen");
 
@@ -28,7 +31,7 @@ const FileInput = ({ label }: { label: string }) => {
         <input
           ref={fileRef}
           type="file"
-          className="hidden"
+          className={`hidden ${inputClassName}`}
           onChange={(e) => {
             setFileName(e.target.files?.[0]?.name || "No file chosen");
           }}
@@ -39,6 +42,29 @@ const FileInput = ({ label }: { label: string }) => {
 };
 
 const AddCustomer = () => {
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state: RootState) => state.yojnaRegistration);
+
+  useEffect(() => {
+    dispatch(fetchYojnaRegistrations() as any);
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <div className="p-6 min-h-screen bg-white dark:bg-[#181c13] flex items-center justify-center">
+        <span className="text-[var(--pasuseva-green)] text-lg">Loading...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 min-h-screen bg-white dark:bg-[#181c13] flex items-center justify-center">
+        <span className="text-red-500 text-lg">{error}</span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 min-h-screen bg-[var(--bg-white)] dark:bg-[#1f1f1f] text-[var(--text-primary)] dark:text-white flex flex-col items-center">
       <form className="w-full max-w-5xl bg-[var(--bg-white)] dark:bg-[#232d1b] rounded-xl shadow p-6 space-y-6">
@@ -99,27 +125,7 @@ const AddCustomer = () => {
             <input type="text" className={`${inputBase} ${inputBorder}`} />
           </div>
         </div>
-        {/* Row 4 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Highest Qualification
-            </label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Percentage (%)
-            </label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium dark:text-white">
-              Passing Year
-            </label>
-            <input type="text" className={`${inputBase} ${inputBorder}`} />
-          </div>
-        </div>
+       
         {/* Row 5 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
@@ -134,8 +140,21 @@ const AddCustomer = () => {
           </div>
         </div>
         {/* Land Document (Jamabandi/Receipt) - Only once! */}
-        <div>
-          <FileInput label="Land Document (Jamabandi/Receipt)" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col justify-end">
+            <FileInput label="Land Document (Jamabandi/Receipt)" inputClassName="h-[44px]" />
+          </div>
+          <div className="flex flex-col justify-end">
+            <label className="block mb-1 font-medium dark:text-white">Choose Yojna</label>
+            <select className={`${inputBase} ${inputBorder} h-[44px]`}>
+              <option value="">Select</option>
+              <option value="Pashu Dhan Yojna">Pashu Dhan Yojna</option>
+              <option value="Gaushala Sahayata Yojna">Gaushala Sahayata Yojna</option>
+              <option value="Bakri Palan Yojna">Bakri Palan Yojna</option>
+              <option value="Dairy Yojna">Dairy Yojna</option>
+              <option value="Other Yojna">Other Yojna</option>
+            </select>
+          </div>
         </div>
         {/* Submit */}
         <div className="flex justify-end">

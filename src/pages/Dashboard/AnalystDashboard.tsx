@@ -1,4 +1,4 @@
-import React from "react";
+
 import { FaKiwiBird } from "react-icons/fa";
 import LineChartOne from "../../components/charts/line/LineChartOne";
 import ChartTab from "../../components/common/ChartTab";

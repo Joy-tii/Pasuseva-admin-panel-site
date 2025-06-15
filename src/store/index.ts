@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import paymentReducer from "./paymentSlice";
 import paymentDetailReducer from "./paymentDetailSlice";
+import yojnaRegistrationReducer from "./yojnaRegistrationSlice";
+
 
 export const store = configureStore({
   reducer: {
     payments: paymentReducer,
     paymentDetail: paymentDetailReducer,
-
+ yojnaRegistration: yojnaRegistrationReducer,
     // ...other reducers
   },
 });

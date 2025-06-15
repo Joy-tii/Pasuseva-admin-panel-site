@@ -1,27 +1,24 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMembers } from "../../store/memberSlice";
+import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
 
-const members = [
-	{
-		name: "Amit Kumar",
-		age: 28,
-		relation: "Brother",
-		mobile: "9876543210",
-		address: "Delhi",
-		status: "Active",
-	},
-	{
-		name: "Suman Sharma",
-		age: 32,
-		relation: "Sister",
-		mobile: "9123456780",
-		address: "Lucknow",
-		status: "Inactive",
-	},
-];
-
 const MemberList = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const { list: members = [], loading, error } =
+		useSelector((state: RootState) => state.member) || {
+			list: [],
+			loading: false,
+			error: null,
+		};
+
+	useEffect(() => {
+		dispatch(fetchMembers() as any);
+	}, [dispatch]);
 
 	return (
 		<div className="p-6 min-h-screen bg-[var(--bg-white)] dark:bg-[#1f1f1f]">
@@ -49,59 +46,53 @@ const MemberList = () => {
 								Name
 							</th>
 							<th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
-								Age
+								Email
 							</th>
 							<th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
-								Relation
-							</th>
-							<th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
-								Mobile
-							</th>
-							<th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
-								Address
-							</th>
-							<th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
-								Status
+								Created At
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						{members.map((m, idx) => (
-							<tr
-								key={m.name + m.mobile}
-								className="hover:bg-[var(--pasuseva-green)]/10 dark:hover:bg-[var(--pasuseva-green)]/20 transition-colors"
-							>
-								<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-200 font-semibold">
-									{idx + 1}
-								</td>
-								<td className="px-4 py-3 border-b text-[var(--pasuseva-orange)] font-semibold">
-									{m.name}
-								</td>
-								<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
-									{m.age}
-								</td>
-								<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
-									{m.relation}
-								</td>
-								<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
-									{m.mobile}
-								</td>
-								<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
-									{m.address}
-								</td>
-								<td className="px-4 py-3 border-b">
-									<span
-										className={`px-2 py-1 rounded text-xs font-semibold ${
-											m.status === "Active"
-												? "bg-green-100 text-green-700"
-												: "bg-red-100 text-red-700"
-										}`}
-									>
-										{m.status}
-									</span>
+						{loading ? (
+							<tr>
+								<td colSpan={4} className="text-center py-8 text-[var(--pasuseva-green)]">
+									Loading...
 								</td>
 							</tr>
-						))}
+						) : error ? (
+							<tr>
+								<td colSpan={4} className="text-center py-8 text-red-500">
+									{error}
+								</td>
+							</tr>
+						) : members.length === 0 ? (
+							<tr>
+								<td colSpan={4} className="text-center py-8 text-gray-400 dark:text-gray-500">
+									कोई सदस्य रिकॉर्ड नहीं मिला।
+								</td>
+							</tr>
+						) : (
+							members.map((m, idx) => (
+								<tr
+									key={m._id}
+									className="hover:bg-[var(--pasuseva-green)]/10 dark:hover:bg-[var(--pasuseva-green)]/20 transition-colors"
+								>
+									<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-200 font-semibold">
+										{idx + 1}
+									</td>
+									<td className="px-4 py-3 border-b text-[var(--pasuseva-orange)] font-semibold">
+										{m.name}
+									</td>
+									<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
+										{m.email}
+									</td>
+									<td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
+										{new Date(m.createdAt).toLocaleDateString()}
+									</td>
+								</tr>
+							))
+						)}
 					</tbody>
 				</table>
 			</div>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  FaHorse,
+  // FaHorse,
  
   FaMoneyCheckAlt,
-  FaUserFriends,
+  FaUser,
+  FaUserFriends
 } from "react-icons/fa";
 import SidebarWidget from "./SidebarWidget";
 import { ChevronDownIcon } from "../icons";
@@ -34,20 +35,6 @@ const navItems: NavItem[] = [
   },
 ];
 
-const yojnaItems: NavItem[] = [
-  {
-    icon: (
-      <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
-        <FaHorse />
-      </span>
-    ),
-    name: "Yojnas",
-    subItems: [
-      { name: "List", path: "/yojna/list" }, // <-- Only List subitem
-    ],
-  },
-];
-
 const paymentsItems: NavItem[] = [
   {
     icon: (
@@ -62,20 +49,22 @@ const paymentsItems: NavItem[] = [
   },
 ];
 
+// Customers ke liye
 const customerItems: NavItem[] = [
   {
     icon: (
       <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
-        <FaUserFriends />
+        <FaUser />
       </span>
     ),
-    name: "Yojna Registration (customer) ",
+    name: "Users",
     subItems: [
       { name: "Customer List", path: "/customer/list" },
     ],
   },
 ];
 
+// Members ke liye
 const memberItems = [
   {
     icon: (
@@ -83,7 +72,7 @@ const memberItems = [
         <FaUserFriends />
       </span>
     ),
-    name: "Member",
+    name: "Members",
     subItems: [
       { name: "Member List", path: "/member/list" },
     ],
@@ -113,7 +102,7 @@ const AppSidebar: React.FC = () => {
         menuType === "dashboard"
           ? navItems
           : menuType === "yojna"
-          ? yojnaItems
+          ? []
           : menuType === "payments"
           ? paymentsItems
           : menuType === "customer"
@@ -358,7 +347,7 @@ const AppSidebar: React.FC = () => {
             </div>
 
             {/* Yojnas Section */}
-            <div>
+            {/* <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${
                   !isExpanded && !isHovered
@@ -368,8 +357,8 @@ const AppSidebar: React.FC = () => {
               >
                 Yojnas
               </h2>
-              {renderMenuItems(yojnaItems, "yojna")}
-            </div>
+              {renderMenuItems([], "yojna")}
+            </div> */}
 
             {/* Support Section */}
             <div>
