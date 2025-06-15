@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import paymentReducer from "./paymentSlice";
-import paymentDetailReducer from "./paymentDetailSlice";
+import paymentReducer from "../features/payment/paymentSlice";
+import paymentDetailReducer from "../features/payment/paymentDetailSlice";
 
 export const store = configureStore({
   reducer: {

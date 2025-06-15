@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 // Create Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: 'http://localhost:4013/api',
 });
 
 // Add a request interceptor to attach the token

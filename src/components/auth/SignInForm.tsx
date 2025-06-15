@@ -6,10 +6,10 @@ import * as Yup from 'yup';
 import { EyeCloseIcon, EyeIcon } from '../../icons';
 import { AppDispatch, RootState } from '../../features/store';
 import { loginUser } from '../../features/auth/authApi';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required('Username is required'),
+  email: Yup.string().required('Username is required'),
   password: Yup.string().required('Password is required'),
 });
 
@@ -18,7 +18,7 @@ const SignInForm: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error } = useSelector((state: RootState) => state.auth);
 
-  const handleSubmit = (values: { username: string; password: string }) => {
+  const handleSubmit = (values: { email: string; password: string }) => {
     dispatch(loginUser(values));
   };
 
@@ -39,7 +39,7 @@ const SignInForm: React.FC = () => {
           {error && <div className="text-red-500">{error}</div>}
         </div>
         <Formik
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -49,7 +49,7 @@ const SignInForm: React.FC = () => {
               <div>
                 <label className="block mb-2">Username</label>
                 <Field
-                  name="username"
+                  name="email"
                   className="w-full p-2 border rounded"
                   placeholder="Enter your username"
                 />

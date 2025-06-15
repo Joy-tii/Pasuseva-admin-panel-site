@@ -11,7 +11,7 @@ const authMiddleware: Middleware = (store) => (next) => async (action) => {
   if (checkAuth.match(action)) {
 
     try {
-      const response = await axiosInstance.get('/users/me');
+      const response = await axiosInstance.get('/auth/me');
 
       store.dispatch(setUser(response.data));
     } catch (error: any) {

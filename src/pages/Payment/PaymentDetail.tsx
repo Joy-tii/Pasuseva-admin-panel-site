@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle, FaHourglassHalf } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPaymentDetail } from "../../store/paymentDetailSlice";
+import { fetchPaymentDetail } from "../../features/payment/paymentDetailSlice";
 import { RootState } from "../../store";
 
 const statusInfo = {
