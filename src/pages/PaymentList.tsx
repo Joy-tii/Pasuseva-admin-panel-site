@@ -18,7 +18,7 @@
 //       setLoading(true);
 //       try {
 //         const response = await axios.get(
-//           "http://localhost:4013/api/payment"
+//           "https://api.pasuseva.thundergits.com/api/payment"
 //         );
 //         setPayments(response.data.data || []);
 //       } catch (err) {

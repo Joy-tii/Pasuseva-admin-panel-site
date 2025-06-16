@@ -27,7 +27,7 @@ const initialState: CustomerState = {
 export const fetchCustomers = createAsyncThunk(
   "customer/fetchCustomers",
   async () => {
-    const res = await axios.get("http://localhost:4013/api/customer");
+    const res = await axios.get("https://api.pasuseva.thundergits.com/api/customer");
     return res.data.data as Customer[];
   }
 );
@@ -35,7 +35,7 @@ export const fetchCustomers = createAsyncThunk(
 export const getCustomerById = createAsyncThunk(
   "customer/getCustomerById",
   async (id: string) => {
-    const res = await axios.get(`http://localhost:4013/api/customer/${id}`);
+    const res = await axios.get(`https://api.pasuseva.thundergits.com/api/customer/${id}`);
     return res.data.data as Customer;
   }
 );

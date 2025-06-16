@@ -51,7 +51,7 @@ const initialState: PaymentState = {
 export const fetchPayments = createAsyncThunk(
   "payments/fetchPayments",
   async () => {
-    const res = await axios.get("http://localhost:4013/api/payment");
+    const res = await axios.get("https://api.pasuseva.thundergits.com/api/payment");
     return res.data.data as PaymentItem[];
   }
 );

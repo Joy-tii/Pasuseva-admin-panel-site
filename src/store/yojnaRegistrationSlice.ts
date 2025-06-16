@@ -46,7 +46,7 @@ export const fetchYojnaRegistrations = createAsyncThunk(
     if (params?.yojna) queryParams.append('yojna', params.yojna);
     if (params?.user) queryParams.append('user', params.user);
 
-    const url = `http://localhost:4013/api/yojna-registration${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    const url = `https://api.pasuseva.thundergits.com/api/yojna-registration${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
     const res = await axiosInstance.get(url);
     return res.data.data;
   }
@@ -58,7 +58,7 @@ export const addYojnaRegistration = createAsyncThunk(
   async (formData: any, { rejectWithValue }) => {
     try {
       const res = await axiosFormDataInstance.post(
-        "http://localhost:4013/api/yojna-registration",
+        "https://api.pasuseva.thundergits.com/api/yojna-registration",
         formData
       );
       return res.data.data;
@@ -71,7 +71,7 @@ export const addYojnaRegistration = createAsyncThunk(
 export const getYojnaRegistrationById = createAsyncThunk(
   "customer/getCustomerById",
   async (id: string) => {
-    const res = await axios.get(`http://localhost:4013/api/yojna-registration/${id}`);
+    const res = await axios.get(`https://api.pasuseva.thundergits.com/api/yojna-registration/${id}`);
     return res.data.data as YojnaRegistrationItem;
   }
 );

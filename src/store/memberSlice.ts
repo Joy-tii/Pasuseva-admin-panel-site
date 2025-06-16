@@ -13,14 +13,14 @@ export interface Member {
 export const fetchMembers = createAsyncThunk(
   "member/fetchMembers",
   async () => {
-    const res = await axios.get("http://localhost:4013/api/users");
+    const res = await axios.get("https://api.pasuseva.thundergits.com/api/users");
     return res.data.data as Member[];
   }
 );
 export const addMembers = createAsyncThunk(
   "member/addMembers",
   async (data: Partial<Member>) => {
-    const res = await axios.post("http://localhost:4013/api/users", data);
+    const res = await axios.post("https://api.pasuseva.thundergits.com/api/users", data);
     return res.data.data as Member;
   }
 );
