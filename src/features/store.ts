@@ -4,8 +4,8 @@ import paymentReducer from '../features/payment/paymentSlice'
 import paymentDetailReducer from '../features/payment/paymentDetailSlice'
 import authMiddleware from './middlewares/authMiddleware'
 import memberReducer from '../store/memberSlice'
-import yojnaRegistrationReducer from '../store/yojnaRegistrationSlice'
-
+import yojnaRegistrationReducer from '../store/yojnaRegistrationSlice';
+import contactReducer from '../store/contactSlice';
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -13,6 +13,7 @@ const store = configureStore({
     paymentDetail: paymentDetailReducer,
     members: memberReducer,
     yojnaRegistration: yojnaRegistrationReducer,
+    contacts: contactReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware),

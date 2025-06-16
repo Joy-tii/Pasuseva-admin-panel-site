@@ -23,6 +23,7 @@ import AddCustomer from "./pages/Customer/AddCustomer";
 import MemberList from "./pages/Member/MemberList";
 import AddMember from "./pages/Member/AddMember";
 import ProtectedLayout from "./layout/ProtectedLayout";
+import ContactList from './pages/contact/List';
 
 export default function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/customer/list" element={<CustomerList />} />
             <Route path="/member/add" element={<AddMember />} />
             <Route path="/customer/add" element={<AddCustomer />} />
+            <Route path="/contact/queries" element={<ContactList />} />
           </Route>
         </Route>
 

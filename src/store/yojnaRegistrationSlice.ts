@@ -27,11 +27,28 @@ export interface YojnaRegistrationItem {
   __v: number;
 }
 
+// ✅ Fetch all registrations
 export const fetchYojnaRegistrations = createAsyncThunk(
   "yojnaRegistration/fetchYojnaRegistrations",
   async () => {
     const res = await axios.get("https://test-api.pasuseva.thundergits.com/api/yojna-registration");
     return res.data.data;
+  }
+);
+
+// ✅ Add a new customer/registration
+export const addYojnaRegistration = createAsyncThunk(
+  "yojnaRegistration/addYojnaRegistration",
+  async (formData: any, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        "https://test-api.pasuseva.thundergits.com/api/yojna-registration",
+        formData
+      );
+      return res.data.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to add customer");
+    }
   }
 );
 
@@ -56,6 +73,20 @@ const yojnaRegistrationSlice = createSlice({
       .addCase(fetchYojnaRegistrations.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching yojna registrations";
+      })
+
+      // ✅ ADD Customer Cases
+      .addCase(addYojnaRegistration.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addYojnaRegistration.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data.push(action.payload); // ✅ add new data to state
+      })
+      .addCase(addYojnaRegistration.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });

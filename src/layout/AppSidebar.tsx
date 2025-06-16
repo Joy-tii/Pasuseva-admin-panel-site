@@ -81,6 +81,24 @@ const memberItems = [
   },
 ];
 
+const getInTouchItems: NavItem[] = [
+  {
+    icon: (
+      <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016.764 4H3.236a2 2 0 00-1.233.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+      </span>
+    ),
+    name: "Get In Touch",
+    subItems: [
+      { name: "List", path: "/contact/queries" }
+    ],
+  },
+];
+
+
+
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
@@ -400,6 +418,19 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(paymentsItems, "payments")}
             </div>
+
+            {/* Get In Touch Section */}
+            <div>
+              <h2
+                className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+                  }`}
+              >
+                Get In Touch
+              </h2>
+              {renderMenuItems(getInTouchItems, "yojna")}
+            </div>
+
+
           </div>
         </nav>
 
