@@ -3,8 +3,8 @@ import { loginUser } from './authApi';
 import { SerializedError } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
-interface UserData {
-  username: string;
+export interface UserData {
+  name: string;
   email: string;
   role: string;
 }

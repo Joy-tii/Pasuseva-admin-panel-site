@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosFormDataInstance from "../utils/axiosFormInstance";
+import axiosInstance from "../utils/axiosInstance";
+import { UserDetails } from "../features/payment/paymentSlice";
+import { UserData } from "../features/auth/user.slice";
 
 export interface YojnaRegistrationItem {
   _id: string;
   yojna: string;
+  user?: UserData;
   status: string;
   fullName: string;
   fatherName: string;
@@ -28,10 +33,21 @@ export interface YojnaRegistrationItem {
 }
 
 // ✅ Fetch all registrations
+interface FetchYojnaParams {
+  search?: string;
+  yojna?: string;
+  user?: string;
+}
+
 export const fetchYojnaRegistrations = createAsyncThunk(
   "yojnaRegistration/fetchYojnaRegistrations",
-  async () => {
-    const res = await axios.get("https://test-api.pasuseva.thundergits.com/api/yojna-registration");
+  async (params?: FetchYojnaParams) => {
+    const queryParams = new URLSearchParams(); if (params?.search) queryParams.append('search', params.search);
+    if (params?.yojna) queryParams.append('yojna', params.yojna);
+    if (params?.user) queryParams.append('user', params.user);
+
+    const url = `http://localhost:4013/api/yojna-registration${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    const res = await axiosInstance.get(url);
     return res.data.data;
   }
 );
@@ -41,8 +57,8 @@ export const addYojnaRegistration = createAsyncThunk(
   "yojnaRegistration/addYojnaRegistration",
   async (formData: any, { rejectWithValue }) => {
     try {
-      const res = await axios.post(
-        "https://test-api.pasuseva.thundergits.com/api/yojna-registration",
+      const res = await axiosFormDataInstance.post(
+        "http://localhost:4013/api/yojna-registration",
         formData
       );
       return res.data.data;
@@ -52,10 +68,19 @@ export const addYojnaRegistration = createAsyncThunk(
   }
 );
 
+export const getYojnaRegistrationById = createAsyncThunk(
+  "customer/getCustomerById",
+  async (id: string) => {
+    const res = await axios.get(`http://localhost:4013/api/yojna-registration/${id}`);
+    return res.data.data as YojnaRegistrationItem;
+  }
+);
+
 const yojnaRegistrationSlice = createSlice({
   name: "yojnaRegistration",
   initialState: {
     data: [] as YojnaRegistrationItem[],
+    selectedYojnaRegistration: null as YojnaRegistrationItem | null,
     loading: false,
     error: null as string | null,
   },
@@ -87,6 +112,17 @@ const yojnaRegistrationSlice = createSlice({
       .addCase(addYojnaRegistration.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      }).addCase(getYojnaRegistrationById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getYojnaRegistrationById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedYojnaRegistration = action.payload;
+      })
+      .addCase(getYojnaRegistrationById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Error fetching customer details";
       });
   },
 });

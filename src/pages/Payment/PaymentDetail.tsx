@@ -84,9 +84,9 @@ const PaymentDetail: React.FC = () => {
           </span>
         </div>
         <div className="mb-4 flex justify-between items-center">
-          <span className={labelClass}>Farmer Name</span>
+          <span className={labelClass}>Yojna</span>
           <span className={valueClass}>
-            {payment.userDetails?.fullName || "-"}
+            {payment.yojnaRegistration?.yojna || "-"}
           </span>
         </div>
         <div className="mb-4 flex justify-between items-center">

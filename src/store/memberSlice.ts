@@ -5,6 +5,7 @@ export interface Member {
   _id: string;
   name: string;
   email: string;
+  mobile: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -12,8 +13,15 @@ export interface Member {
 export const fetchMembers = createAsyncThunk(
   "member/fetchMembers",
   async () => {
-    const res = await axios.get("https://test-api.pasuseva.thundergits.com/api/users");
+    const res = await axios.get("http://localhost:4013/api/users");
     return res.data.data as Member[];
+  }
+);
+export const addMembers = createAsyncThunk(
+  "member/addMembers",
+  async (data: Partial<Member>) => {
+    const res = await axios.post("http://localhost:4013/api/users", data);
+    return res.data.data as Member;
   }
 );
 
@@ -36,6 +44,18 @@ const memberSlice = createSlice({
         state.list = action.payload;
       })
       .addCase(fetchMembers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Error fetching members";
+      })
+      .addCase(addMembers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addMembers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list.push(action.payload);
+      })
+      .addCase(addMembers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching members";
       });

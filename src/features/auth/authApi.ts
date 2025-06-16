@@ -12,7 +12,7 @@ export const loginUser = createAsyncThunk(
   'users/loginUser',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('https://test-api.pasuseva.thundergits.com/api/auth/login', credentials)
+      const response = await axios.post('http://localhost:4013/api/auth/login', credentials)
       console.log(response.data)
       return response.data
     } catch (error: any) {

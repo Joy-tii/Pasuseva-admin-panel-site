@@ -19,6 +19,7 @@ import AnalystDashboard from "./pages/Dashboard/AnalystDashboard";
 import YojnaList from "./pages/Yojna/YojnaList";
 import AddYojna from "./pages/Yojna/AddYojna";
 import CustomerList from "./pages/Customer/CustomerList";
+import CustomerDetail from "./pages/Customer/CustomerDetail";
 import AddCustomer from "./pages/Customer/AddCustomer";
 import MemberList from "./pages/Member/MemberList";
 import AddMember from "./pages/Member/AddMember";
@@ -66,8 +67,8 @@ export default function App() {
             <Route path="/members/List" element={<MemberList />} />
             <Route path="/members/add" element={<AddMember />} />
             <Route path="/member/list" element={<MemberList />} />
-            <Route path="/payment/list" element={<PaymentList />} />
-            <Route path="/customer/list" element={<CustomerList />} />
+            <Route path="/payment/list" element={<PaymentList />} />            <Route path="/customer/list" element={<CustomerList />} />
+            <Route path="/customer/:id" element={<CustomerDetail />} />
             <Route path="/member/add" element={<AddMember />} />
             <Route path="/customer/add" element={<AddCustomer />} />
             <Route path="/contact/queries" element={<ContactList />} />

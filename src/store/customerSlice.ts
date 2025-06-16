@@ -12,12 +12,14 @@ export interface Customer {
 
 interface CustomerState {
   list: Customer[];
+  selectedCustomer: Customer | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CustomerState = {
   list: [],
+  selectedCustomer: null,
   loading: false,
   error: null,
 };
@@ -25,8 +27,16 @@ const initialState: CustomerState = {
 export const fetchCustomers = createAsyncThunk(
   "customer/fetchCustomers",
   async () => {
-    const res = await axios.get("https://test-api.pasuseva.thundergits.com/api/customer");
+    const res = await axios.get("http://localhost:4013/api/customer");
     return res.data.data as Customer[];
+  }
+);
+
+export const getCustomerById = createAsyncThunk(
+  "customer/getCustomerById",
+  async (id: string) => {
+    const res = await axios.get(`http://localhost:4013/api/customer/${id}`);
+    return res.data.data as Customer;
   }
 );
 
@@ -43,10 +53,21 @@ const customerSlice = createSlice({
       .addCase(fetchCustomers.fulfilled, (state, action) => {
         state.loading = false;
         state.list = action.payload;
-      })
-      .addCase(fetchCustomers.rejected, (state, action) => {
+      }).addCase(fetchCustomers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching customers";
+      })
+      .addCase(getCustomerById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCustomerById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedCustomer = action.payload;
+      })
+      .addCase(getCustomerById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Error fetching customer details";
       });
   },
 });

@@ -44,7 +44,7 @@ const PaymentList: React.FC = () => {
           <thead>
             <tr className="bg-[var(--pasuseva-green)] text-white">
               <th className="px-4 py-2 text-left text-sm">Payment ID</th>
-              <th className="px-4 py-2 text-left text-sm">Farmer Name</th>
+              <th className="px-4 py-2 text-left text-sm">Yojna</th>
               <th className="px-4 py-2 text-left text-sm">Amount</th>
               <th className="px-4 py-2 text-left text-sm">Date</th>
               <th className="px-4 py-2 text-left text-sm">Status</th>
@@ -64,7 +64,7 @@ const PaymentList: React.FC = () => {
                   {pmt.razorpay_order_id || pmt._id}
                 </td>
                 <td className="px-4 py-2 text-black dark:text-gray-100">
-                  {pmt.userDetails?.fullName || "-"}
+                  {pmt.yojnaRegistration?.yojna || "-"}
                 </td>
                 <td className="px-4 py-2 text-black dark:text-gray-100">
                   ₹{pmt.amount}

@@ -13,7 +13,7 @@ const ContactList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://test-api.pasuseva.thundergits.com/api/contact')
+    fetch('http://localhost:4013/api/contact')
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {

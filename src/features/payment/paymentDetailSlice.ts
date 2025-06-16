@@ -4,7 +4,7 @@ import axios from "axios";
 export const fetchPaymentDetail = createAsyncThunk(
   "paymentDetail/fetchPaymentDetail",
   async (id: string) => {
-    const res = await axios.get(`https://test-api.pasuseva.thundergits.com/api/payment/${id}`);
+    const res = await axios.get(`http://localhost:4013/api/payment/${id}`);
     return res.data.data;
   }
 );

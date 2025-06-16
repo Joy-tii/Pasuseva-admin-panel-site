@@ -6,6 +6,7 @@ import authMiddleware from './middlewares/authMiddleware'
 import memberReducer from '../store/memberSlice'
 import yojnaRegistrationReducer from '../store/yojnaRegistrationSlice';
 import contactReducer from '../store/contactSlice';
+import customerReducer from '../store/customerSlice';
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -14,6 +15,7 @@ const store = configureStore({
     members: memberReducer,
     yojnaRegistration: yojnaRegistrationReducer,
     contacts: contactReducer,
+    customer: customerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware),

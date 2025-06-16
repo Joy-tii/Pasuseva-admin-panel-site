@@ -183,7 +183,7 @@ const AppSidebar: React.FC = () => {
         if (user?.role === "admin") {
           return true;
         } else {
-          if (f.name === 'Users') {
+          if (f.name === 'Users' || f.name === 'Dashboard') {
             return true
           }
           return false
@@ -378,6 +378,8 @@ const AppSidebar: React.FC = () => {
             </div> */}
 
             {/* Support Section */}
+
+
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
@@ -393,8 +395,9 @@ const AppSidebar: React.FC = () => {
 
 
 
+
             {/* MEMBER Section */}
-            <div>
+            {user?.role === "admin" && <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
                   ? "lg:justify-center"
@@ -404,10 +407,10 @@ const AppSidebar: React.FC = () => {
                 MEMBER
               </h2>
               {renderMenuItems(memberItems, "member")}
-            </div>
+            </div>}
 
             {/* Payments Section */}
-            <div>
+            {user?.role === "admin" && <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
                   ? "lg:justify-center"
@@ -417,10 +420,10 @@ const AppSidebar: React.FC = () => {
                 Payments
               </h2>
               {renderMenuItems(paymentsItems, "payments")}
-            </div>
+            </div>}
 
             {/* Get In Touch Section */}
-            <div>
+            {user?.role === "admin" && <div>
               <h2
                 className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
                   }`}
@@ -428,7 +431,7 @@ const AppSidebar: React.FC = () => {
                 Get In Touch
               </h2>
               {renderMenuItems(getInTouchItems, "yojna")}
-            </div>
+            </div>}
 
 
           </div>

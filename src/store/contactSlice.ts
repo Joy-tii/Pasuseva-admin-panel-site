@@ -16,7 +16,7 @@ export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('https://test-api.pasuseva.thundergits.com/api/contact');
+      const response = await fetch('http://localhost:4013/api/contact');
       const json = await response.json();
       if (!json.success) throw new Error('Fetch failed');
       return json.data;
