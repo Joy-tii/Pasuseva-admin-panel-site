@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle, FaHourglassHalf } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPaymentDetail } from "../../features/payment/paymentDetailSlice";
-import { RootState } from "../../store";
+import { RootState } from "../../features/store";
 
 const statusInfo = {
   paid: {

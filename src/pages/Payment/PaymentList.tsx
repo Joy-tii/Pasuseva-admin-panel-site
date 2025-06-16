@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPayments } from "../../features/payment/paymentSlice";
-import { RootState } from "../../store";
+import { RootState } from "../../features/store";
 
 const statusColor = {
   paid: "bg-[var(--pasuseva-green)]/20 text-[var(--pasuseva-green)]",
@@ -56,8 +56,8 @@ const PaymentList: React.FC = () => {
               <tr
                 key={pmt._id}
                 className={`border-b last:border-b-0 ${idx % 2 === 1
-                    ? "bg-[var(--pasuseva-yellow1)]/10 dark:bg-[#232d1b]"
-                    : "bg-white dark:bg-[#232323]"
+                  ? "bg-[var(--pasuseva-yellow1)]/10 dark:bg-[#232d1b]"
+                  : "bg-white dark:bg-[#232323]"
                   } hover:bg-[var(--pasuseva-green)]/10 dark:hover:bg-[var(--pasuseva-green)]/20 transition`}
               >
                 <td className="px-4 py-2 text-sm font-semibold text-black dark:text-gray-100">

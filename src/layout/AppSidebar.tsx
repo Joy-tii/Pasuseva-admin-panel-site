@@ -404,7 +404,7 @@ const AppSidebar: React.FC = () => {
         </nav>
 
         {/* Optional Widget */}
-        {(isExpanded || isHovered || isMobileOpen) && <SidebarWidget />}
+        {/* {(isExpanded || isHovered || isMobileOpen) && <SidebarWidget />} */}
       </div>
     </aside>
   );

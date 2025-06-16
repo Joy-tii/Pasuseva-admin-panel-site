@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchYojnaRegistrations } from "../../store/yojnaRegistrationSlice";
-import { RootState } from "../../store";
+import { RootState } from "../../features/store";
 
 const inputBase =
   "w-full rounded px-4 py-2 focus:outline-none focus:ring-2 transition-colors duration-150 bg-[var(--bg-white)] text-[var(--text-primary)] dark:bg-[#232d1b] dark:text-white";
@@ -125,7 +125,7 @@ const AddCustomer = () => {
             <input type="text" className={`${inputBase} ${inputBorder}`} />
           </div>
         </div>
-       
+
         {/* Row 5 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>

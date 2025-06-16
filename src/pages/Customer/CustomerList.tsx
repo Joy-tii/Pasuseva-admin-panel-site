@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchYojnaRegistrations } from "../../store/yojnaRegistrationSlice";
-import { RootState } from "../../store";
+import { RootState } from "../../features/store";
 import { FaUserPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
