@@ -120,6 +120,9 @@ const CustomerList = () => {
                 {member.name}
               </option>
             ))}
+            <option key={"website"} value={"website"}>
+              {"Website"}
+            </option>
           </select>}
         </div>
 
@@ -159,9 +162,9 @@ const CustomerList = () => {
                 <th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
                   Phone
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
+                {/* <th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
                   Address
-                </th>
+                </th> */}
                 {/* <th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">Status</th> */}
                 <th className="px-4 py-3 text-left text-sm font-bold text-[var(--pasuseva-green)] border-b">
                   Yojna
@@ -190,9 +193,9 @@ const CustomerList = () => {
                   <td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
                     {c.phone}
                   </td>
-                  <td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
+                  {/* <td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
                     {c.address}
-                  </td>
+                  </td> */}
                   {/* <td className="px-4 py-3 border-b">
                     <span className={`px-2 py-1 rounded text-xs font-semibold ${c.status === "Active" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                       {c.status || "Active"}
@@ -202,7 +205,7 @@ const CustomerList = () => {
                     {c.yojna}
                   </td>
                   <td className="px-4 py-3 border-b text-gray-700 dark:text-gray-300">
-                    {c.user?.name}
+                    {c.user ? c.user?.name : "Website"}
                   </td>
                 </tr>
               ))}

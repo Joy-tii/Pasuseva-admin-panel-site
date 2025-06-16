@@ -59,7 +59,7 @@ const customerItems: NavItem[] = [
         <FaUser />
       </span>
     ),
-    name: "Users",
+    name: "Customers",
     subItems: [
       { name: "Customer List", path: "/customer/list" },
     ],
@@ -183,7 +183,7 @@ const AppSidebar: React.FC = () => {
         if (user?.role === "admin") {
           return true;
         } else {
-          if (f.name === 'Users' || f.name === 'Dashboard') {
+          if (f.name === 'Customers' || f.name === 'Dashboard') {
             return true
           }
           return false
