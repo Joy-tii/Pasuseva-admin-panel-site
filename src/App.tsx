@@ -25,6 +25,8 @@ import MemberList from "./pages/Member/MemberList";
 import AddMember from "./pages/Member/AddMember";
 import ProtectedLayout from "./layout/ProtectedLayout";
 import ContactList from './pages/contact/List';
+import JobList from "./pages/jobApplication/JobApplicationList";
+import JobApplicationDetail from "./pages/jobApplication/JobApplicationDetail";
 
 export default function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -72,6 +74,8 @@ export default function App() {
             <Route path="/member/add" element={<AddMember />} />
             <Route path="/customer/add" element={<AddCustomer />} />
             <Route path="/contact/queries" element={<ContactList />} />
+            <Route path="/job-application/list" element={<JobList />} />
+            <Route path="/job-application/:id/detail" element={<JobApplicationDetail />} />
           </Route>
         </Route>
 

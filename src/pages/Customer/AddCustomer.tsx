@@ -1,8 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addYojnaRegistration, fetchYojnaRegistrations } from "../../store/yojnaRegistrationSlice";
 import { useNavigate } from "react-router-dom";
 import biharData from '../../data/bihar_data.json';
+import DatePicker from "react-datepicker";
+import dayjs from 'dayjs'
+import "react-datepicker/dist/react-datepicker.css";
+import { RootState } from "../../features/store";
+import LoadingOverlay from "../../components/loader/LoadingOverlay";
+import ConfirmationPopup from "../../components/ui/pop-up/ConfirmationPopUp";
 
 const inputBase =
   "w-full rounded px-4 py-2 focus:outline-none focus:ring-2 transition-colors duration-150 bg-[var(--bg-white)] text-[var(--text-primary)] dark:bg-[#232d1b] dark:text-white";
@@ -11,12 +17,14 @@ const inputBorder =
 
 const AddCustomer = () => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false)
+  const { loading } = useSelector((state: RootState) => state.yojnaRegistration)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     fullName: "",
     fatherName: "",
-    dob: "",
+    dob: new Date(),
     phone: "",
     email: "",
     address: "",
@@ -114,7 +122,7 @@ const AddCustomer = () => {
 
     const form = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      form.append(key, value);
+      form.append(key, value instanceof Date ? value.toISOString() : value);
     });
     if (photoRef.current?.files?.[0]) form.append("photo", photoRef.current.files[0]);
     if (aadhaarFrontRef.current?.files?.[0]) form.append("aadhaarFront", aadhaarFrontRef.current.files[0]);
@@ -122,12 +130,14 @@ const AddCustomer = () => {
     if (landDocsRef.current?.files?.[0]) form.append("landDocs", landDocsRef.current.files[0]);
     try {
       await dispatch(addYojnaRegistration(form) as any);
-      await dispatch(fetchYojnaRegistrations() as any);
-      alert("Registration submitted successfully!");
+
+      setIsOpen(true)
     } catch (error) {
       alert("Submission failed.");
     }
   };
+
+  if (loading) return <LoadingOverlay />
 
   return (
     <div className="p-6 min-h-screen bg-[var(--bg-white)] dark:bg-[#1f1f1f] text-[var(--text-primary)] dark:text-white flex flex-col items-center">
@@ -158,15 +168,18 @@ const AddCustomer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium dark:text-white">Date of Birth (DD/MM/YYYY)</label>
-            <input
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleInputChange}
+            <label className="block mb-1 font-medium dark:text-white">
+              Date of Birth (DD/MM/YYYY)
+            </label>
+            <DatePicker
+              dateFormat="dd/MM/yyyy"
               className={`${inputBase} ${inputBorder}`}
+              selected={formData.dob ? new Date(formData.dob) : null}
+              onChange={(date) => setFormData((prev) => ({ ...prev, dob: date || new Date() }))}
+              placeholderText="DD/MM/YYYY"
             />
           </div>
+
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -367,6 +380,13 @@ const AddCustomer = () => {
           </button>
         </div>
       </form>
+      <ConfirmationPopup
+        isOpen={isOpen}
+        message="Do you want to navigate to list"
+        onCancel={() => setIsOpen(false)}
+        onConfirm={() => navigate("/customer/list")}
+        title="Created Successfully"
+      />
     </div>
   );
 };

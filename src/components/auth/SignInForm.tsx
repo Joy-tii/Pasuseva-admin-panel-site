@@ -24,14 +24,7 @@ const SignInForm: React.FC = () => {
 
   return (
     <div className="flex flex-col flex-1 text-[var(--text-primary)]">
-      <div className="w-full max-w-md pt-10 mx-auto">
-        <Link
-          to="/"
-          className="inline-flex items-center text-sm text-[var(--pasuseva-green)] transition-colors hover:text-[var(--pasuseva-orange)]"
-        >
-          ← Back to Dashboard
-        </Link>
-      </div>
+
 
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
@@ -92,14 +85,7 @@ const SignInForm: React.FC = () => {
           )}
         </Formik>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm">
-            Don't have an account?{' '}
-            <Link to="/signup" className="text-[var(--pasuseva-orange)] hover:underline">
-              Sign Up
-            </Link>
-          </p>
-        </div>
+
       </div>
     </div>
   );

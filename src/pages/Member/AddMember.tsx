@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../features/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../features/store";
 import { addMembers, Member } from "../../store/memberSlice";
+import ConfirmationPopup from "../../components/ui/pop-up/ConfirmationPopUp";
+import { useNavigate } from "react-router";
+import LoadingOverlay from "../../components/loader/LoadingOverlay";
 
 const inputBase =
   "w-full rounded px-4 py-2 focus:outline-none transition-colors duration-150 bg-[var(--bg-white)] text-[var(--text-primary)] dark:bg-[#232d1b] dark:text-white";
@@ -10,6 +13,9 @@ const inputBorder =
 
 const AddMember = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [isOpen, setIsOpen] = useState(false)
+  const { loading } = useSelector((state: RootState) => state.members)
+  const navigate = useNavigate()
   // State for input values (optional, for controlled inputs)
   const [form, setForm] = useState<Partial<Member>>({
     name: "",
@@ -18,11 +24,11 @@ const AddMember = () => {
 
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log("Form submitted:", form);
-    dispatch(addMembers(form))
+    await dispatch(addMembers(form))
     // Reset form after submission
     setForm({
       name: "",
@@ -30,8 +36,9 @@ const AddMember = () => {
       email: "",
 
     });
+    setIsOpen(true)
   }
-
+  if (loading) return <LoadingOverlay />
   return (
     <div className="p-6 min-h-screen bg-[var(--bg-white)] dark:bg-[#1f1f1f] text-[var(--text-primary)] dark:text-white flex flex-col items-center">
       <form className="w-full max-w-2xl bg-[var(--bg-white)] dark:bg-[#232d1b] rounded-xl shadow p-6 space-y-6">
@@ -82,6 +89,13 @@ const AddMember = () => {
           </button>
         </div>
       </form>
+      <ConfirmationPopup
+        isOpen={isOpen}
+        message="Do you want to navigate to list"
+        onCancel={() => setIsOpen(false)}
+        onConfirm={() => navigate("/member/list")}
+        title="Created Successfully"
+      />
     </div>
   );
 };

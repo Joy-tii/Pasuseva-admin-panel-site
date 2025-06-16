@@ -96,6 +96,21 @@ const getInTouchItems: NavItem[] = [
     ],
   },
 ];
+const jobApplicationItems: NavItem[] = [
+  {
+    icon: (
+      <span className="text-pasuseva-green group-hover:text-pasuseva-orange">
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016.764 4H3.236a2 2 0 00-1.233.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+      </span>
+    ),
+    name: "Job Application",
+    subItems: [
+      { name: "List", path: "/job-application/list" }
+    ],
+  },
+];
 
 
 
@@ -105,7 +120,7 @@ const AppSidebar: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth)
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "dashboard" | "yojna" | "payments" | "customer" | "member";
+    type: "dashboard" | "yojna" | "payments" | "customer" | "member" | "job-application";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>({});
@@ -118,7 +133,7 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     let submenuMatched = false;
-    ["dashboard", "yojna", "payments", "customer", "member"].forEach((menuType) => {
+    ["dashboard", "yojna", "payments", "customer", "member", "job-application"].forEach((menuType) => {
       const items =
         menuType === "dashboard"
           ? navItems
@@ -134,7 +149,7 @@ const AppSidebar: React.FC = () => {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
               setOpenSubmenu({
-                type: menuType as "dashboard" | "yojna" | "payments" | "customer" | "member",
+                type: menuType as "dashboard" | "yojna" | "payments" | "customer" | "member" | "job-application",
                 index,
               });
               submenuMatched = true;
@@ -161,7 +176,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "dashboard" | "yojna" | "payments" | "customer" | "member") => {
+  const handleSubmenuToggle = (index: number, menuType: "dashboard" | "yojna" | "payments" | "customer" | "member" | "job-application") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -176,7 +191,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     items: NavItem[],
-    menuType: "dashboard" | "yojna" | "payments" | "customer" | "member"
+    menuType: "dashboard" | "yojna" | "payments" | "customer" | "member" | "job-application"
   ) => (
     <ul className="flex flex-col gap-4">
       {items.filter(f => {
@@ -376,6 +391,18 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems([], "yojna")}
             </div> */}
+            {/* Job Section */}
+            {user?.role === 'admin' && <div>
+              <h2
+                className={`mb-4 text-xs uppercase flex items-center gap-2 leading-[20px] text-black dark:text-white font-semibold ${!isExpanded && !isHovered
+                  ? "lg:justify-center"
+                  : "justify-start"
+                  }`}
+              >
+                Job Application
+              </h2>
+              {renderMenuItems(jobApplicationItems, "job-application")}
+            </div>}
 
             {/* Support Section */}
 
